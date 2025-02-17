@@ -3,18 +3,17 @@ on:
   workflow_dispatch:
     branches:
       - main
-env:
-  MATLAB_LOG_FILE: "MATLAB_Log_Output.txt"
-  # PATH_TO_MATLAB: ${{ vars.PATH_TO_MATLAB }}
-  PATH_TO_MATLAB: "/path/to/your/matlab/bin"
 
 jobs:
-  SingleAction:
-    name: Single Action
-    runs-on:  padv_demo_ci
+  PAdvExample:
+    runs-on:   ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: echo "$PATH_TO_MATLAB" >> $GITHUB_PATH
+      - uses: actions/checkout@v4
+
+      - name: Setup MATLAB
+        uses: matlab-actions/setup-matlab@v2
           
       - name: run process action
-        run: matlab -nodesktop -logfile "$MATLAB_LOG_FILE" -batch "openProject(pwd);runprocess(Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
+        uses: matlab-actions/run-command@v2
+        with:
+            command: openProject(pwd);runprocess(Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);
