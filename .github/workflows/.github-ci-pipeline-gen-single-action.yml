@@ -3,6 +3,8 @@ on:
   workflow_dispatch:
     branches:
       - main
+env:
+  MLM_LICENSE_TOKEN: ${{ secrets.MyToken }}
 
 jobs:
   PAdvExample:
@@ -12,6 +14,18 @@ jobs:
 
       - name: Setup MATLAB
         uses: matlab-actions/setup-matlab@v2
+        with:
+            products: >
+                MATLAB
+                CI/CD_Automation_for_Simulink_Check
+                Embedded_Coder
+                Requirements_Toolbox
+                Simulink
+                Simulink_Check
+                Simulink_Coder
+                Simulink_Coverage
+                Simulink_Report_Generator
+                Simulink_Test
           
       - name: run process action
         uses: matlab-actions/run-command@v2
