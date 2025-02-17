@@ -1,0 +1,20 @@
+name: GitHub CI Single Action MATLAB Pipeline
+on:
+  workflow_dispatch:
+    branches:
+      - main
+env:
+  MATLAB_LOG_FILE: "MATLAB_Log_Output.txt"
+  # PATH_TO_MATLAB: ${{ vars.PATH_TO_MATLAB }}
+  PATH_TO_MATLAB: "/path/to/your/matlab/bin"
+
+jobs:
+  SingleAction:
+    name: Single Action
+    runs-on:  padv_demo_ci
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "$PATH_TO_MATLAB" >> $GITHUB_PATH
+          
+      - name: run process action
+        run: matlab -nodesktop -logfile "$MATLAB_LOG_FILE" -batch "openProject(pwd);runprocess(Force = false, ExitInBatchMode = true, RerunFailedTasks = false, RerunErroredTasks = false, GenerateJUnitForProcess = true);"
